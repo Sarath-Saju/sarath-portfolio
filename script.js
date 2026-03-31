@@ -68,8 +68,50 @@ const skillObserver = new IntersectionObserver(
 skillFills.forEach((el) => skillObserver.observe(el));
 
 // ===== CONTACT FORM =====
-// ⚠️ Replace the URL below with your actual Render.com backend URL after deploying
-const BACKEND_URL = "https://sarath-portfolio-xxxx.onrender.com";
+// ===== CONTACT FORM =====
+
+const BACKEND_URL = "https://sarath-portfolio-rh7d.onrender.com";
+
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const btn = document.getElementById("submitBtn");
+  const status = document.getElementById("form-status");
+
+  btn.disabled = true;
+  status.textContent = "Sending...";
+
+  const data = {
+    name: document.getElementById("name").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    message: document.getElementById("message").value.trim(),
+  };
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/contact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+      status.textContent = "✅ Message sent!";
+      document.getElementById("contactForm").reset();
+    } else {
+      status.textContent = "❌ " + result.error;
+    }
+
+  } catch (err) {
+    console.error(err);
+    status.textContent = "❌ Backend not connected";
+  }
+
+  btn.disabled = false;
+});
 
 document.getElementById("contactForm").addEventListener("submit", async (e) => {
   e.preventDefault();
