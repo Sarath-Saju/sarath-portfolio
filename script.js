@@ -142,3 +142,23 @@ const sectionObserver = new IntersectionObserver(
   { threshold: 0.4 }
 );
 sections.forEach((s) => sectionObserver.observe(s));
+app.post("/contact", async (req, res) => {
+  const { name, email, message } = req.body;
+
+  await pool.query(
+    "INSERT INTO messages (name, email, message) VALUES ($1, $2, $3)",
+    [name, email, message]
+  );
+
+  res.json({ success: true });
+});
+pool.query(`CREATE TABLE ...`);
+app.get("/messages", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM messages");
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "DB error" });
+  }
+});
