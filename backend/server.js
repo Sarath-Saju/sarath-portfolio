@@ -6,7 +6,6 @@ const { Pool } = require("pg");
 
 const app = express();
 
-// ✅ REPLACE HERE
 app.use(cors({
   origin: [
     "http://localhost:3000",
@@ -24,20 +23,23 @@ const pool = new Pool({
   },
 });
 
-// Test DB connection
+// ✅ Connect + create table
 pool.connect()
-  .then(() => console.log("✅ Connected to PostgreSQL"))
-  .catch((err) => console.error("❌ DB Error:", err));
+  .then(async () => {
+    console.log("✅ Connected to PostgreSQL");
 
-// Create table
-pool.query(`
-  CREATE TABLE IF NOT EXISTS messages (
-    id SERIAL PRIMARY KEY,
-    name TEXT,
-    email TEXT,
-    message TEXT
-  );
-`);
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS messages (
+        id SERIAL PRIMARY KEY,
+        name TEXT,
+        email TEXT,
+        message TEXT
+      );
+    `);
+
+    console.log("✅ Table ready");
+  })
+  .catch(err => console.error("❌ DB Error:", err));
 
 // API route
 app.post("/contact", async (req, res) => {
@@ -56,6 +58,7 @@ app.post("/contact", async (req, res) => {
   }
 });
 
+// ✅ correct port message
 app.listen(5000, () => {
-  console.log("🚀 Server running on port 3000");
+  console.log("🚀 Server running on port 5000");
 });
