@@ -6,7 +6,14 @@ const { Pool } = require("pg");
 
 const app = express();
 
-app.use(cors());
+// ✅ REPLACE HERE
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://sarath-saju.github.io"
+  ]
+}));
+
 app.use(express.json());
 
 // PostgreSQL connection
