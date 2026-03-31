@@ -3,16 +3,6 @@ const BACKEND_URL = "https://sarath-portfolio-rh7d.onrender.com";
 document.getElementById("contactForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const btn = document.getElementById("submitBtn");
-  const status = document.getElementById("form-status");
-  const btnText = btn.querySelector(".btn-text");
-  const btnLoader = btn.querySelector(".btn-loader");
-
-  btnText.style.display = "none";
-  btnLoader.style.display = "inline";
-  btn.disabled = true;
-  status.textContent = "Sending...";
-
   const data = {
     name: document.getElementById("name").value.trim(),
     email: document.getElementById("email").value.trim(),
@@ -30,17 +20,13 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
 
     const result = await res.json();
 
-    if (res.ok) {
-      status.textContent = "✅ Message sent!";
-      document.getElementById("contactForm").reset();
-    } else {
-      status.textContent = "❌ " + result.error;
-    }
+    alert("Message sent ✅");
 
   } catch (err) {
     console.error(err);
-    status.textContent = "❌ Backend not connected";
+    alert("Error ❌");
   }
+});
 
   btnText.style.display = "inline";
   btnLoader.style.display = "none";
