@@ -184,17 +184,24 @@ const sectionObserver = new IntersectionObserver(
   { threshold: 0.4 }
 );
 sections.forEach((s) => sectionObserver.observe(s));
+// Save message
 app.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;
 
-  await pool.query(
-    "INSERT INTO messages (name, email, message) VALUES ($1, $2, $3)",
-    [name, email, message]
-  );
+  try {
+    await pool.query(
+      "INSERT INTO messages (name, email, message) VALUES ($1, $2, $3)",
+      [name, email, message]
+    );
 
-  res.json({ success: true });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: "Database error" });
+  }
 });
-pool.query(`CREATE TABLE ...`);
+
+
+// ✅ 👉 PASTE HERE (below contact route)
 app.get("/messages", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM messages");
@@ -203,4 +210,10 @@ app.get("/messages", async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "DB error" });
   }
+});
+
+
+// server start (must be last)
+app.listen(5000, () => {
+  console.log("🚀 Server running on port 5000");
 });
