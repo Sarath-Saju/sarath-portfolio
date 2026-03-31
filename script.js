@@ -88,7 +88,7 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
   };
 
   try {
-    const res = await fetch(`${BACKEND_URL}/contact`, {
+    const res = await fetch("https://sarath-portfolio-rh7d.onrender.com/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
