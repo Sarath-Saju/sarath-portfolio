@@ -42,6 +42,7 @@ pool.connect()
   .catch(err => console.error("❌ DB Error:", err));
 
 // API route
+// Save message
 app.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -58,7 +59,20 @@ app.post("/contact", async (req, res) => {
   }
 });
 
-// ✅ correct port message
-app.listen(5000, () => {
-  console.log("🚀 Server running on port 5000");
+
+// ✅ ADD THIS (VERY IMPORTANT)
+app.get("/messages", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM messages");
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+// ✅ ADD THIS ALSO (for testing)
+app.get("/", (req, res) => {
+  res.send("Backend running ✅");
 });
