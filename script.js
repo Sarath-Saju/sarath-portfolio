@@ -69,7 +69,7 @@ skillFills.forEach((el) => skillObserver.observe(el));
 
 // ===== CONTACT FORM =====
 // ⚠️ Replace the URL below with your actual Render.com backend URL after deploying
-const BACKEND_URL = "https://your-app-name.onrender.com";
+const BACKEND_URL = "https://sarath-portfolio-xxxx.onrender.com";
 
 document.getElementById("contactForm").addEventListener("submit", async (e) => {
   e.preventDefault();
